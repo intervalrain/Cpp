@@ -5,6 +5,34 @@
     "version": "0.2.0",
     "configurations": [        
         {
+            "name": "(lldb) 連接",
+            "type": "cppdbg",
+            "request": "attach",
+            "program": "輸入程式名稱，例如 ${workspaceFolder}/a.out",
+            "processId": "${command:pickProcess}",
+            "MIMode": "lldb"
+        },
+    {
+        "name": "updateQuery",
+        "type": "cppdbg",
+        "request": "attach",
+        "program": "輸入程式名稱，例如 ${workspaceFolder}/a.out",
+        "processId": "${command:pickProcess}",
+        "MIMode": "lldb"
+    },
+        {
+            "name": "(lldb) Launch",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "輸入程式名稱，例如 ${workspaceFolder}/a.out",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "lldb"
+        },
+        {
             "name": "(lldb) Launch",
             "type": "cppdbg",
             "request": "launch",
