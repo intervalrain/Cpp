@@ -32,7 +32,7 @@ int main(){
     string digits = "23";
     Solution* sol = new Solution;
     vector<string> vec = sol->letterCombinations(digits);
-    for (string s: vec){
-        cout << s << " ";
+    for (int i = 0; i < vec.size(); i++){
+        cout << vec[] << " ";
     }
 }
