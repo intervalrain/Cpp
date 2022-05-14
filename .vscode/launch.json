@@ -4,6 +4,7 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
         {
             "name": "(lldb) Launch",
             "type": "cppdbg",
@@ -11,11 +12,21 @@
             "program": "${fileDirname}/${fileBasenameNoExtension}",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${fileDirname}",
+            "cwd": "${workspaceFolder}",
+            "showDisplayString": false,
             "environment": [],
             "externalConsole": false,
+            "internalConsoleOptions": "openOnSessionStart",
             "MIMode": "lldb",
-            "preLaunchTask": "C/C++: g++ 建置使用中檔案"
+            "logging": {
+                "moduleLoad": false,
+                "programOutput": true,
+                "trace": false
+            },
+            "preLaunchTask": "Build with g++",
+            "osx": {
+                "MIMode": "lldb"
+            }
         }
 
     ]
