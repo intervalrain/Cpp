@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <queue>
 using namespace std;
 
 /**
@@ -11,34 +12,33 @@ using namespace std;
  * hence return the result in the form of string.
  */
 
-bool comp(string a, string b){
-    int m = a.size();
-    int n = b.size();
-    int i;
-    for (i = 0; i < min(m,n); i++){
-        if (a[i] != b[i])
-            return a[i] < b[i];
+struct cmp{
+    bool operator()(string a, string b){
+        return a+b < b+a;
     }
-    if (a.size() > b.size()){
-        return a[i+1] < b[i];
-    }
-    return a[i] < b[i+1];
-}
-
-void push_back(string& sb, string word){
-    for (int i = 0; i < word.length(); i++){
-        sb.push_back(word[i]);
-    }
-}
-
+};
 
 class Solution{
 public:
-       string printLargest(vector<string> &arr){
-        sort(arr.begin(), arr.end(), comp);
+    static bool comp(string a, string b){
+        return a+b > b+a;
+    }
+    // string printLargest(vector<string> &arr){
+    //     sort(arr.begin(), arr.end(), comp);
+    //     string res = "";
+    //     for (size_t i = 0; i < arr.size(); i++){
+    //         res += arr[i];
+    //     }
+    //     return res;
+    // }
+    string printLargest(vector<string> &arr){
+        priority_queue<string, vector<string>, cmp> pq;
+        for (size_t i = 0; i < arr.size(); i++)
+            pq.push(arr[i]);
         string res = "";
-        for (int i = 0; i < arr.size(); i++){
-            push_back(res, arr[i]);
+        for (size_t i = 0; i < arr.size(); i++){
+            res += pq.top();
+            pq.pop();
         }
         return res;
     }
@@ -51,6 +51,10 @@ int main(){
 
     vector<string> arr2 = {"54", "546", "548", "60"};
     cout << sol->printLargest(arr2) << endl;     // 6054854654
+
+    vector<string> arr3 = {"2","197","229"};
+    cout << sol->printLargest(arr3) << endl;     // 2292197
+
 
     return 0;
 }
