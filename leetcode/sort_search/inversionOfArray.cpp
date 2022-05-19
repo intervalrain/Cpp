@@ -13,43 +13,36 @@ using namespace std;
 
 class Solution{
 public:
+    int cnt = 0;
     int inversionCount(int arr[], int n){
-        int tmp[n];
-        return mergeSort(arr, tmp, 0, n-1);
+        mergeSort(arr, 0, n-1);
+        return cnt;
     }
-    int merge(int arr[], int tmp[], int left, int mid, int right){
-        int i, j, k;
-        int cnt = 0;
-        i = left;
-        j = mid;
-        k = left;
-        while (i <= mid-1 && j <= right){
+
+    void merge(int arr[], int l, int m, int r){
+        int i = l, j = m + 1, k = 0;
+        int newarr[r - l + 1];
+        while (i <= m && j <= r){
             if (arr[i] <= arr[j]){
-                tmp[k++] = arr[i++];
+                newarr[k++] = arr[i++];
             } else {
-                tmp[k++] = arr[j++];
-                cnt = cnt + (mid - i);
+                newarr[k++] = arr[j++];
+                cnt += (m+1-i);
             }
         }
-        while (i <= mid-1){
-            tmp[k++] = arr[i++];
+        while (i <= m) newarr[k++] = arr[i++];
+        while (j <= r) newarr[k++] = arr[j++];
+        for (i = 0; i < r - l + 1; i++){
+            arr[l+i] = newarr[i];
         }
-        while (j <= right){
-            tmp[k++] = arr[j++];
-        }
-        for (int i = left; i <= right; i++){
-            arr[i] = tmp[i];
-        }
-        return cnt;
     }
-    int mergeSort(int arr[], int tmp[], int left, int right){
-        int mid, cnt = 0;
-        if (right <= left) return 0;
-        mid = left + (right - left)/2;
-        cnt += mergeSort(arr, tmp, left, mid);
-        cnt += mergeSort(arr, tmp, mid+1, right);
-        cnt += merge(arr, tmp, left, mid+1, right);
-        return cnt;
+    void mergeSort(int arr[], int l, int r){
+        if (l >= r) return;
+
+        int mid = l + (r - l)/2;
+        mergeSort(arr, l, mid);
+        mergeSort(arr, mid+1, r);
+        merge(arr, l, mid, r);
     }
 };
 
