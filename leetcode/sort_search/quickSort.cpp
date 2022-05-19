@@ -28,22 +28,17 @@ void quickSort(int arr[], int low, int high){
 }
 
 int partition(int arr[], int low, int high){
-    int pivot = high;
-    int left = low, right = high - 1;
-    while (left < right){
-        while (arr[left] < arr[pivot] && left < right){
-            left++;
-        }
-        while (arr[right] > arr[pivot] && left < right){
-            right--;
-        }
-        if (left == right){
-            swap(arr[left], arr[pivot]);
-        } else {
-            swap(arr[left], arr[right]);
+    int pi = high;
+    int ix = low;
+    for (int i = low; i < high; i++){
+        if (arr[i] < arr[pi]){
+            swap(arr[i], arr[ix++]);
         }
     }
-    return left;
+    swap(arr[ix], arr[pi]);
+
+
+    return ix;
 }
 
 void print(int arr[], int n){
