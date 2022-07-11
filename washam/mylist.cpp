@@ -232,42 +232,42 @@ public:
     }
 };
 
-int main(){
-    mylist<int> list;
-    mylist<int> list2;
-    list.push_front(1);
-    list.push_front(2);
-    list.push_front(3);
-    list.push_front(4);
-    list.push_back(5);
-    cout << list.at(2) << endl;
-    cout << list.at(-1) << endl;
+// int main(){
+//     mylist<int> list;
+//     mylist<int> list2;
+//     list.push_front(1);
+//     list.push_front(2);
+//     list.push_front(3);
+//     list.push_front(4);
+//     list.push_back(5);
+//     cout << list.at(2) << endl;
+//     cout << list.at(-1) << endl;
 
     
-    list.print();
-    cout << list.size() << endl;
+//     list.print();
+//     cout << list.size() << endl;
 
-    cout << list.is_empty() << endl;
-    cout << list2.is_empty() << endl;
+//     cout << list.is_empty() << endl;
+//     cout << list2.is_empty() << endl;
 
-    cout << list[1] << endl;
+//     cout << list[1] << endl;
 
-    list.insert(3,-1);
-    list.print();
+//     list.insert(3,-1);
+//     list.print();
 
-    list.erase(1);
-    list.print();
+//     list.erase(1);
+//     list.print();
 
-    int nums[] = {1,2,3,4,4,4,4,4,4,5,6,7};
-    int n = sizeof(nums)/sizeof(int);
-    mylist<int> list3(nums, nums+n);
-    list3.print();
+//     int nums[] = {1,2,3,4,4,4,4,4,4,5,6,7};
+//     int n = sizeof(nums)/sizeof(int);
+//     mylist<int> list3(nums, nums+n);
+//     list3.print();
 
-    list3.removeAll(4);
-    list3.print();
-    list3.remove(3);
-    list3.print();
+//     list3.removeAll(4);
+//     list3.print();
+//     list3.remove(3);
+//     list3.print();
 
-    return 0;
-}
+//     return 0;
+// }
 
