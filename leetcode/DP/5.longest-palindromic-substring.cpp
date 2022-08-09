@@ -7,13 +7,6 @@
 // @lc code=start
 class Solution {
 public:
-    // dp
-    //   b a b a d
-    // b o 
-    // a x o 
-    // b o x o 
-    // a x o x o 
-    // d x x x x o
     string longestPalindrome(string s) {
         int n = s.length();
         vector<vector<bool>> dp(n, vector<bool>(n, false));
@@ -41,3 +34,10 @@ public:
 };
 // @lc code=end
 
+    // dp
+    //   b a b a d
+    // b o 
+    // a x o 
+    // b o x o 
+    // a x o x o 
+    // d x x x x o
