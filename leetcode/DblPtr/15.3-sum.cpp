@@ -9,24 +9,35 @@ class Solution {
 public:
     vector<vector<int>> threeSum(vector<int>& nums) {
         sort(nums.begin(), nums.end());
-        unordered_map<int,int> map;
         vector<vector<int>> res;
-        for (int i = 0; i < nums.size(); i++){
-            map[nums[i]] = i;
-        }
         for (int i = 0; i < nums.size()-2; i++){
-            for (int j = i+1; j < nums.size()-1; j++){
-                int toFind = -(nums[i] + nums[j]);
-                if (toFind < 0) continue;
-                if (map.count(toFind) && map[toFind] > j){
-                    res.push_back({nums[i], nums[j], toFind});
+            if (nums[i] > 0) break;
+            int j = i+1, k = nums.size()-1;
+            while (j < k){
+                int sum = nums[i] + nums[j] + nums[k];
+                if (sum < 0){
+                    j++;
+                } else if (sum > 0){
+                    k--;
+                } else {
+                    res.push_back({nums[i], nums[j], nums[k]});
+                    while (j+1 < k && nums[j] == nums[j+1]) j++;
+                    while (k-1 > j && nums[k-1] == nums[k]) k--;
+                    j++;
+                    k--;
                 }
-                j = map[nums[j]];
             }
-            i = map[nums[i]];
+            while (i+1 < nums.size()-2 && nums[i] == nums[i+1]) i++;
         }
-        return res;
+        return res;        
     }
 };
 // @lc code=end
 
+// -4,-1,-1,0,1,2
+//     ^
+//          ^
+//            ^
+// -1,-1,2
+// -1,0,1
+// -1,0,1
