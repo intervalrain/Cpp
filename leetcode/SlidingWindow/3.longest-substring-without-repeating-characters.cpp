@@ -14,19 +14,21 @@ class Solution {
 public:
     // sliding window
     int lengthOfLongestSubstring(string s) {
-        unordered_map<char,int> window;
-        int len = 0;
+        int res = 0;
+        int memo[256] = {0};
         int left = 0, right = 0;
         while (right < s.length()){
-            char c = s[right++];
-            window[c]++;
-            while (window[c] == 2){
-                char d = s[left++];
-                window[d]--;
+            int& c = memo[s[right]];
+            c++;
+            right++;
+            while (c == 2){
+                int& d = memo[s[left]];
+                d--;
+                left++;
             }
-            len = max(len, right - left);
+            res = max(res, right - left);
         }
-        return len;
+        return res;
     }
 };
 // @lc code=end
