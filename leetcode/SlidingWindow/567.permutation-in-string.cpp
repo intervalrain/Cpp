@@ -14,29 +14,27 @@ class Solution {
 public:
     // sliding window
     bool checkInclusion(string t, string s) {
-        unordered_map<char, int> need, window;
-        for (char c : t) need[c]++;
-
-        int left = 0, right = 0;
+        int need[26] = {0};
+        int window[26] = {0};
+        int len = 0;
         int valid = 0;
-        while (right < s.length()){
-            char c = s[right++];
-            if (need.count(c)){
-                window[c]++;
-                if (window[c] == need[c])
-                    valid++;
+        int left = 0, right = 0;
+        for (char c : s1){
+            int& cnt = need[c-'a'];
+            cnt++;
+            if (cnt == 1) len++;
+        }
+        while (right < s2.length()){
+            char c = s2[right++];
+            window[c-'a']++;
+            if (window[c-'a'] == need[c-'a']) valid++;
+            while (valid == len){
+                if (right - left == s1.length()) return true;
+                char d = s2[left++];
+                if (window[d-'a'] == need[d-'a']) valid--;
+                window[d-'a']--;
             }
-
-            while (right - left >= t.length()){
-                if (valid == need.size())
-                    return true;
-                char d = s[left++];
-                if (need.count(d)){
-                    if (window[d] == need[d])
-                        valid--;
-                    window[d]--;
-                }
-            }
+            
         }
         return false;
     }
