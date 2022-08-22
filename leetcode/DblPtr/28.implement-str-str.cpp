@@ -13,14 +13,14 @@ public:
     KMP(string pat){
         this->pat = pat;
         int m = pat.length();
-        dp = vector<vector<int>>(m, vector<int>(256, 0));
-        dp[0][pat[0]] = 1;
+        dp = vector<vector<int>>(m, vector<int>(26, 0));
+        dp[0][pat[0]-'a'] = 1;
         int x = 0;
         for (int i = 1; i < m; i++){
-            for (int j = 0; j < 256; j++)
+            for (int j = 0; j < 26; j++)
                 dp[i][j] = dp[x][j];
-            dp[i][pat[i]] = i + 1;
-            x = dp[x][pat[i]];
+            dp[i][pat[i]-'a'] = i + 1;
+            x = dp[x][pat[i]-'a'];
         }
     }
     int search(string txt){
@@ -28,7 +28,7 @@ public:
         int n = txt.length();
         int j = 0;
         for (int i = 0; i < n; i++){
-            j = dp[j][txt[i]];
+            j = dp[j][txt[i]-'a'];
             if (j == m) return i-m+1;
         }
         return -1;
@@ -43,3 +43,13 @@ public:
 };
 // @lc code=end
 
+//   ababcababa
+//
+//  ababa
+// a1
+// b1
+// c1
+// d1
+// .
+// .
+// .
