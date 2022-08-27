@@ -1,0 +1,32 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"vector": "cpp",
+			"tuple": "cpp",
+			"unordered_map": "cpp",
+			"barrier": "cpp",
+			"chrono": "cpp",
+			"random": "cpp",
+			"latch": "cpp",
+			"limits": "cpp",
+			"semaphore": "cpp",
+			"valarray": "cpp",
+			"functional": "cpp",
+			"array": "cpp",
+			"bitset": "cpp",
+			"string_view": "cpp",
+			"initializer_list": "cpp",
+			"ranges": "cpp",
+			"span": "cpp",
+			"regex": "cpp",
+			"utility": "cpp",
+			"string": "cpp",
+			"map": "cpp"
+		}
+	}
+}
