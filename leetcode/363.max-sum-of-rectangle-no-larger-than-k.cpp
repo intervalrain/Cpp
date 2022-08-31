@@ -10,27 +10,29 @@ using namespace std;
 // @lc code=start
 class Solution {
 public:
+    // O(min(m,n)^2 * max(m,n) * log(max(m,n)))
+    // O(mlog(m)n^2)
     int maxSumSubmatrix(vector<vector<int>>& matrix, int k) {
-        if (matrix.empty()) return 0;
-        int row = matrix.size(), col = matrix[0].size(), res = INT_MIN;
-        for (int l = 0; l < col; ++l) {
-            vector<int> sums(row, 0);
-            for (int r = l; r < col; ++r) {
-                for (int i = 0; i < row; ++i) {
-                    sums[i] += matrix[i][r];
+        int row = matrix.size(), col = matrix[0].size();
+        int m = min(row, col);
+        int n = max(row, col);
+        bool flag = col > row;
+        int res = INT_MIN;
+        for (int i = 0; i < m; i++){
+            vector<int> sums(n);
+            for (int j = i; j >= 0; j--){
+                int curr = 0;
+                set<int> acc;
+                acc.insert(0);
+                for (int x = 0; x < n; x++){
+                    sums[x] = sums[x] + (flag ? matrix[j][x] : matrix[x][j]);
+                    curr += sums[x];
+                    auto it = lower_bound(acc.begin(), acc.end(), curr - k);
+                    if (it != acc.end()){
+                        res = max(res, curr - *it);
+                    }
+                    acc.insert(curr);
                 }
-                
-                // Find the max subarray no more than K 
-                set<int> accuSet;
-                accuSet.insert(0);
-                int curSum = 0, curMax = INT_MIN;
-                for (int sum : sums) {
-                    curSum += sum;
-                    set<int>::iterator it = accuSet.lower_bound(curSum - k);
-                    if (it != accuSet.end()) curMax = std::max(curMax, curSum - *it);
-                    accuSet.insert(curSum);
-                }
-                res = std::max(res, curMax);
             }
         }
         return res;
@@ -38,5 +40,5 @@ public:
 };
 // @lc code=end
 
-// 1  1  2
-// 1  -1 3
+//  1  1  2
+//  0 -2  1
