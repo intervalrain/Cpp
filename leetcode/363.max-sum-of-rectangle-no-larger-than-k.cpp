@@ -13,25 +13,28 @@ public:
     // O(min(m,n)^2 * max(m,n) * log(max(m,n)))
     // O(mlog(m)n^2)
     int maxSumSubmatrix(vector<vector<int>>& matrix, int k) {
-        int row = matrix.size(), col = matrix[0].size();
-        int m = min(row, col);
-        int n = max(row, col);
-        bool flag = col > row;
+        int m = matrix.size(), n = matrix[0].size();
         int res = INT_MIN;
+        vector<vector<int>> sums(m, vector<int>(n));
+        sums[0][0] = matrix[0][0];
         for (int i = 0; i < m; i++){
-            vector<int> sums(n);
-            for (int j = i; j >= 0; j--){
+            for (int j = 1; j < n; j++){
+                sums[i][j] = sums[i][j-1] + matrix[i][j];
+            }
+        }
+        for (int l = 0; l < n; l++){
+            for (int r = l; r < n; r++){
+                set<int> sum;
+                sum.insert(0);
                 int curr = 0;
-                set<int> acc;
-                acc.insert(0);
-                for (int x = 0; x < n; x++){
-                    sums[x] = sums[x] + (flag ? matrix[j][x] : matrix[x][j]);
-                    curr += sums[x];
-                    auto it = lower_bound(acc.begin(), acc.end(), curr - k);
-                    if (it != acc.end()){
+                for (int i = 0; i < m; i++){
+                    curr += sums[i][r] - sums[i][l];
+                    auto it = sum.lower_bound(curr - k);
+                    if (it != sum.end()){
                         res = max(res, curr - *it);
+                        if (res == k) return res;
                     }
-                    acc.insert(curr);
+                    sum.insert(curr);
                 }
             }
         }
@@ -40,5 +43,10 @@ public:
 };
 // @lc code=end
 
-//  1  1  2
-//  0 -2  1
+//  V     V
+//  5 -4 -3  4  --> -4
+// -3 -4  4  5  --> -3
+//  5  1  5 -4  --> 11
+
+// 1 0 1  --> 2
+// 0-2 3  --> 1

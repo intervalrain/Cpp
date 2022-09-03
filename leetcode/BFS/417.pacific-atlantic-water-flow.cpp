@@ -1,3 +1,6 @@
+#include <bits/stdc++.h>
+
+using namespace std;
 /*
  * @lc app=leetcode id=417 lang=cpp
  *
