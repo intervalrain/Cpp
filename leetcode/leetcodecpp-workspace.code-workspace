@@ -26,7 +26,8 @@
 			"regex": "cpp",
 			"utility": "cpp",
 			"string": "cpp",
-			"map": "cpp"
+			"map": "cpp",
+			"list": "cpp"
 		}
 	}
 }
