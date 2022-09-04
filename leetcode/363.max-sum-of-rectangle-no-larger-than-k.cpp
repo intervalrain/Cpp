@@ -13,28 +13,32 @@ public:
     // O(min(m,n)^2 * max(m,n) * log(max(m,n)))
     // O(mlog(m)n^2)
     int maxSumSubmatrix(vector<vector<int>>& matrix, int k) {
-        int m = matrix.size(), n = matrix[0].size();
-        int res = INT_MIN;
-        vector<vector<int>> sums(m, vector<int>(n));
-        sums[0][0] = matrix[0][0];
-        for (int i = 0; i < m; i++){
-            for (int j = 1; j < n; j++){
-                sums[i][j] = sums[i][j-1] + matrix[i][j];
-            }
-        }
-        for (int l = 0; l < n; l++){
-            for (int r = l; r < n; r++){
-                set<int> sum;
-                sum.insert(0);
-                int curr = 0;
-                for (int i = 0; i < m; i++){
-                    curr += sums[i][r] - sums[i][l];
-                    auto it = sum.lower_bound(curr - k);
-                    if (it != sum.end()){
-                        res = max(res, curr - *it);
-                        if (res == k) return res;
+        int row = matrix.size(), col = matrix[0].size(), res = INT_MIN;
+        int m = max(row, col);
+        int n = min(row, col);
+        bool flag = row > col;
+        int sums[m];
+        for (int l = 0; l < n; ++l){
+            memset(sums, 0, sizeof(sums));
+            for (int r = l; r < n; ++r){
+                for (int i = 0; i < m; ++i){
+                    sums[i] += (flag ? matrix[i][r] : matrix[r][i]);
+                }
+                
+                int curr = INT_MIN;
+                for (int i = 0, sum = 0; curr <= k && i < m; ++i){
+                    curr = max(curr, sum = sum > 0 ? sum + sums[i] : sums[i]);
+                    if (curr == k) return k;
+                }
+                if (curr < k){
+                    res = max(res, curr);
+                    continue;
+                }
+                for (int i = 0; i < m; ++i){
+                    for (int j = i, sum = 0; j < m; ++j){
+                        if ((sum += sums[j]) <= k) res = max(res, sum);
                     }
-                    sum.insert(curr);
+                    if (res == k) return k;
                 }
             }
         }
@@ -50,3 +54,4 @@ public:
 
 // 1 0 1  --> 2
 // 0-2 3  --> 1
+
