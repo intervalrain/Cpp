@@ -28,7 +28,8 @@
 			"string": "cpp",
 			"map": "cpp",
 			"list": "cpp",
-			"ostream": "cpp"
+			"ostream": "cpp",
+			"*.tcc": "cpp"
 		}
 	}
 }
