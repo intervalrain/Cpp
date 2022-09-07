@@ -29,7 +29,8 @@
 			"map": "cpp",
 			"list": "cpp",
 			"ostream": "cpp",
-			"*.tcc": "cpp"
+			"*.tcc": "cpp",
+			"unordered_set": "cpp"
 		}
 	}
 }
