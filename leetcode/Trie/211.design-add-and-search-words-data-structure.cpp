@@ -10,57 +10,61 @@ using namespace std;
 // @lc code=start
 class TrieNode {
 public:
-    bool word;
     TrieNode* children[26];
+    bool tail;
     TrieNode() {
-        word = false;
+        this->tail = false;
         memset(children, NULL, sizeof(children));
     }
 };
-
 class WordDictionary {
-public:
-    /** Initialize your data structure here. */
-    WordDictionary() {
-        
-    }
-    
-    /** Adds a word into the data structure. */
-    void addWord(string word) {
-        TrieNode* node = root;
-        for (char c : word) {
-            if (!node -> children[c - 'a']) {
-                node -> children[c - 'a'] = new TrieNode();
-            }
-            node = node -> children[c - 'a'];
-        }
-        node -> word = true;
-    }
-    
-    /** Returns if the word is in the data structure. A word could contain the dot character '.' to represent any one letter. */
-    bool search(string word) {
-        return search(word.c_str(), root);
-    }
 private:
     TrieNode* root = new TrieNode();
-
-    bool search(const char* word, TrieNode* node) {
-        for (int i = 0; word[i] && node; i++) {
-            if (word[i] != '.') {
-                node = node -> children[word[i] - 'a'];
+    bool len[26];
+    bool search(const char* word, TrieNode* curr){
+        for (int i = 0; word[i]; i++){
+            if (word[i] != '.'){
+                if (curr->children[word[i]-'a'] == NULL) return false;
+                curr = curr->children[word[i]-'a'];
             } else {
-                TrieNode* tmp = node;
-                for (int j = 0; j < 26; j++) {
-                    node = tmp -> children[j];
-                    if (search(word + i + 1, node)) {
-                        return true;
-                    }
+                for (int j = 0; j < 26; j++){
+                    if (!curr->children[j]) continue;
+                    if (search(word + i + 1, curr->children[j])) return true;
+                    
                 }
+                return false;
             }
         }
-        return node && node -> word;
+        return curr->tail;
+    }
+public:
+    WordDictionary() {
+        memset(len, false, sizeof(len));
+    }
+    
+    void addWord(string word) {
+        len[word.length()] = true;
+        TrieNode* curr = root;
+        for (char c : word) {
+            if (!curr->children[c-'a'])
+                curr->children[c-'a'] = new TrieNode();
+            curr = curr->children[c-'a'];
+        }
+        curr->tail = true;
+    }
+    
+    bool search(string word) {
+        if (!len[word.length()]) return false;
+        return search(word.c_str(), root);
     }
 };
+
+/**
+ * Your WordDictionary object will be instantiated and called as such:
+ * WordDictionary* obj = new WordDictionary();
+ * obj->addWord(word);
+ * bool param_2 = obj->search(word);
+ */
 
 /**
  * Your WordDictionary object will be instantiated and called as such:
