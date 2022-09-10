@@ -32,7 +32,8 @@
 			"*.tcc": "cpp",
 			"unordered_set": "cpp",
 			"deque": "cpp",
-			"iterator": "cpp"
+			"iterator": "cpp",
+			"set": "cpp"
 		}
 	}
 }

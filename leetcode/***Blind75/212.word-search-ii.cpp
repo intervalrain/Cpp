@@ -8,52 +8,44 @@ using namespace std;
  */
 
 // @lc code=start
-class Board {
+class Board{
 private:
-    int m, n;
-    int total;
-    int cnt[128] = {};
-    int dirc[4][2] = {{1,0},{-1,0},{0,1},{0,-1}};
     vector<vector<char>> board;
-    bool backtrack(int row, int col, string word, int i){
+    int m, n;
+    int charLen;
+    int dict[26] = {0};
+    int dirc[4][2] = {{1,0},{0,1},{-1,0},{0,-1}};
+    bool backtrack(string& word, int row, int col, int i){
         if (i == word.length()) return true;
-        if (row < 0 || col < 0 || row >= m || col >= n || board[row][col] != word[i]) return false;
-        char tmp = board[row][col];
+        if (row < 0 || col < 0 || row >= m || col >= n || word[i] != board[row][col]) return false;
+        char old = board[row][col];
         board[row][col] = '#';
-        for (auto d : dirc){
-            bool res = backtrack(row+d[0], col+d[1], word, i+1);
+        bool res = false;
+        for (const auto& d : dirc){
+            res = backtrack(word, row+d[0], col+d[1], i+1);
             if (res) {
-                board[row][col] = tmp;
+                board[row][col] = old;
                 return true;
             }
         }
-        board[row][col] = tmp;
-        return false;        
+        board[row][col] = old;
+        return false;
     }
-public:
-    Board(vector<vector<char>>& board){
-        this->board = board;
-        m = board.size(), n = board[0].size();
-        total = m * n;
-        for (const auto& v:board)
-            for (const auto& c:v)
-                cnt[c]++;
+    bool lengthCheck(string& word){
+        return word.length() <= charLen;
     }
-    bool check(string& word){
-        // # prune 1
-        if (word.length() > total) return false;
-        // # prune 2
-        unordered_map<char, int> map;
-        for (const char& c : word) map[c]++;
-        for (auto m : map){
-            if (cnt[m.first] < m.second) return false;
+    bool dictCheck(string& word){
+        int cnt[26] = {0};
+        for (char c : word){
+            cnt[c-'a']++;
+            if (cnt[c-'a'] > dict[c-'a']) return false;
         }
         return true;
     }
-    bool longerPrefix(string& word){
-        // # prune 3
-        int left = word.find_first_not_of(word[0]);
-        int right = word.length() - word.find_last_not_of(word[word.length()-1]);
+    bool prefixAdjust(string& word){
+        char first = word[0], last = word[word.length()-1];
+        int left = word.find_first_not_of(first);
+        int right = word.length()-word.find_last_not_of(last);
         if (left > right) {
             reverse(word.begin(), word.end());
             return true;
@@ -61,27 +53,45 @@ public:
         return false;
     }
     bool search(string& word){
-        if (!check(word)) return false;
-        bool rev = longerPrefix(word);
         for (int i = 0; i < m; i++){
             for (int j = 0; j < n; j++){
-                if (backtrack(i, j, word, 0)) {
-                    if (rev) reverse(word.begin(), word.end());
-                    return true;
-                }
+                if (backtrack(word, i, j, 0)) return true;
             }
         }
         return false;
     }
+    
+    
+public:    
+    Board(vector<vector<char>>& board){
+        this->board = board;
+        m = board.size();
+        n = board[0].size();
+        charLen = m * n;
+        for (const auto& row : board)
+            for (const auto& c : row)
+                dict[c-'a']++;
+    }
+    vector<string> findWords(vector<string>& words){
+        vector<string> res;
+        for (string word : words){
+            if (!lengthCheck(word) || !dictCheck(word)) continue;
+            bool rev = prefixAdjust(word);
+            if (search(word)){
+                if (rev) reverse(word.begin(), word.end());
+                res.push_back(word);
+            }
+        }
+        return res;
+    }
+
+    
 };
 class Solution {
 public:
     vector<string> findWords(vector<vector<char>>& board, vector<string>& words) {
         Board b(board);
-        vector<string> res;
-        for (string s : words)
-            if (b.search(s)) res.push_back(s);
-        return res;
+        return b.findWords(words);
     }
 };
 // @lc code=end
