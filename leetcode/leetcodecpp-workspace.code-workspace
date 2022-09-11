@@ -33,7 +33,8 @@
 			"unordered_set": "cpp",
 			"deque": "cpp",
 			"iterator": "cpp",
-			"set": "cpp"
+			"set": "cpp",
+			"compare": "cpp"
 		}
 	}
 }
