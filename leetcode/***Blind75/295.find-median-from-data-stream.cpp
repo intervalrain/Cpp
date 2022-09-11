@@ -10,37 +10,23 @@ using namespace std;
 // @lc code=start
 class MedianFinder {
 private:
-    priority_queue<int, vector<int>, greater<int>> minheap; // ascending
-    priority_queue<int> maxheap;    // descending
+    priority_queue<long> small, large;
 public:
     MedianFinder() {}
-    
     void addNum(int num) {
-        if (maxheap.empty() || num < maxheap.top())
-            maxheap.push(num);
-        else
-            minheap.push(num);
-        arrange();
-    }
-    void arrange(){
-        if (maxheap.size() > 1 + minheap.size()){
-            minheap.push(maxheap.top());
-            maxheap.pop();
-        }
-        if (minheap.size() > 1 + maxheap.size()){
-            maxheap.push(minheap.top());
-            minheap.pop();
+        small.push(num);
+        large.push(-small.top());
+        small.pop();
+        if (small.size() < large.size()){
+            small.push(-large.top());
+            large.pop();
         }
     }
     
     double findMedian() {
-        if (maxheap.size() != minheap.size()){
-            if (maxheap.size() > minheap.size())
-                return maxheap.top()/1.0;
-            else
-                return minheap.top()/1.0;
-        } 
-        return (maxheap.top() + minheap.top())/2.0;
+        return small.size() > large.size()
+            ? small.top() / 1.0
+            : (small.top() - large.top()) / 2.0;
     }
 };
 
@@ -51,12 +37,4 @@ public:
  * double param_2 = obj->findMedian();
  */
 // @lc code=end
-//
-//
-//
-// 1,3,4,7,9, 12,16,17,20
-// ---------  -----------
-//         ^  ^
-//   maxheap  minheap
-// if num < maxheap.top push into maxheap
-// else push into minheap
+
