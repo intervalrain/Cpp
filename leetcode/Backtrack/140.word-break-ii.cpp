@@ -8,6 +8,8 @@ using namespace std;
  */
 
 // @lc code=start
+class Solution {
+public:
     vector<string> wordBreak(string s, vector<string>& wordDict) {
         vector<string> res;
         string path;
@@ -31,5 +33,6 @@ using namespace std;
         if (t.length() > s.length()) return false;
         return s.substr(0, t.length()) == t;
     }
+};
 // @lc code=end
 
