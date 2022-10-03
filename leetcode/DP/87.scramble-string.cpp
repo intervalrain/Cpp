@@ -50,3 +50,12 @@ public:
 };
 // @lc code=end
 
+// T(n) = T(i) + T(n-i) for i to n-1
+// T(n)   = 4 * SUM(T_{1, n-1}) = 4 * SUM (T_{1, n-2}) + 4 * T(n-1)
+// T(n-1) = 4 * SUM(T_{1, n-2})
+
+// T(n) = T(n-1) + 4 * T(n-1)
+// T(n) = 5T(n-1)
+//      = 5*5T(n-2)
+//      = 5^n T(1) 
+// time complexity : O(5^n)
