@@ -35,6 +35,22 @@ public:
         }
         return node;
     }
+    // iteration
+    // ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+    //     ListNode* dummy = new ListNode(-1);
+    //     ListNode* curr = dummy;
+    //     int cin = 0;
+    //     while (l1 || l2 || cin > 0) {
+    //         int tmp = (l1 ? l1->val : 0) + (l2 ? l2->val : 0) + cin;
+    //         cin = tmp / 10;
+    //         curr->next = new ListNode(tmp % 10);
+            
+    //         if (l1) l1 = l1->next;
+    //         if (l2) l2 = l2->next;
+    //         curr = curr->next;
+    //     }
+    //     return dummy->next;
+    // }
 };
 // @lc code=end
 
