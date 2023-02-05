@@ -1,9 +1,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
-#include "mergeSort.cpp"
-
-
+#include "timSort.cpp"
 
 using namespace std;
 
