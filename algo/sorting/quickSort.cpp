@@ -18,16 +18,16 @@ using namespace std;
  */
 
 int partition(vector<int>& nums, int left, int right) {
-    int pivot = right;
+    int pivot = left;
     while (left < right) {
-        while (nums[left] < nums[pivot]) left++;
-        while (nums[right] > nums[pivot]) right--;
-        if (left < right) {
-            swap(nums[left], nums[right]);
-        }
+        int i = left, j = right + 1;
+        while (i < right && nums[++i] < nums[pivot]);
+        while (j > left && nums[pivot] < nums[--j]);
+        if (i >= j) break;
+        swap(nums[i], nums[j]);
     }
-    swap(nums[left], nums[pivot]);
-    return left;
+    swap(nums[j], nums[pivot]);
+    return j;
 
 }
 
